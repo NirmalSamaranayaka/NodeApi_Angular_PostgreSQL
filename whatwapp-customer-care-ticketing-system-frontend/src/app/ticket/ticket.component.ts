@@ -1,76 +1,62 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { TicketsService } from '../api/tickets.service';
 import { Message, Ticket } from '../api/Message';
-import { catchError, Observable, switchMap, tap } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { FormBuilder, Validators } from '@angular/forms';
-
 @Component({
   selector: 'app-ticket',
   templateUrl: './ticket.component.html',
-  styleUrls: ['./ticket.component.scss']
+  styleUrls: ['./ticket.component.scss'],
 })
-export class TicketComponent implements OnInit {
-  _ticketId = 0;
-  ticket$ = new Observable<Ticket>();
-  messages$ = new Observable<Message[]>();
-  messageForm = this.fb.group({
-    text: this.fb.control('', [Validators.required]),
-  });
-
-  @Input()
-  set ticketId(ticketId: number) {
-    this._ticketId = ticketId;
-    this.ticket$ = this.api.getTicket(this._ticketId).pipe(
-      tap(ticket => {
-        if (ticket.status === "resolved") {
-          this.messageForm.disable();
-        } else {
-          this.messageForm.enable();
-        }
-      })
-    );
-    this.messages$ = this.ticket$.pipe(
-      switchMap(({ id }) => this.api.getTicketMessages(id)),
-      catchError((err, caught) => {
-        this.router.navigate(["home", "tickets", "not-found"]);
-        return caught;
-      }),
-    )
-    this.messageForm.reset();
-  }
-  get ticketId() {
-    return this._ticketId;
-  }
-
+export class TicketComponent implements OnChanges {
+  @Input() ticketId!: number;
+  ticket: Ticket | null = null;
+  messages: Message[] = [];
+  showForm = true;
+  private lastLoadedTicketId: number | null = null;
   constructor(
     private api: TicketsService,
     private snackBar: MatSnackBar,
-    private router: Router,
-    private fb: FormBuilder,
-  ) { }
-
-  ngOnInit(): void {
+    private router: Router
+  ) {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes['ticketId'] &&
+      changes['ticketId'].currentValue !== changes['ticketId'].previousValue &&
+      changes['ticketId'].currentValue !== this.lastLoadedTicketId
+    ) {
+      this.lastLoadedTicketId = changes['ticketId'].currentValue;
+      this.loadTicketData();
+    }
   }
-
-  trackByItems(index: number, item: Message): number {
-    return item.id;
+  private loadTicketData() {
+    this.api.getTicket(this.ticketId).subscribe(
+      (ticket) => {
+        this.ticket = ticket;
+        this.showForm = ticket.status !== 'resolved';
+        this.api.getTicketMessages(this.ticketId).subscribe((messages) => {
+          this.messages = messages;
+        });
+      },
+      (err) => {
+        this.router.navigate(['home', 'tickets', 'not-found']);
+      }
+    );
   }
-
-  closeTicket(ticketId: number) {
-    this.api.resolveTicket(ticketId).subscribe(t => {
-      this.ticketId = this._ticketId;
-      this.snackBar.open("Ticket resolved", "Close", { duration: 3000 });
+  onResolve(ticketId: number) {
+    this.api.resolveTicket(ticketId).subscribe(() => {
+      this.loadTicketData();
+      this.snackBar.open('Ticket resolved', 'Close', { duration: 3000 });
     });
   }
-
-  sendMessage() {
-    const { text } = this.messageForm.value;
-    const senderType = "operator", senderId = "operator1";
-    this.api.addMessageToTicket(this._ticketId, { text: text!, senderType, senderId }).subscribe(message => {
-      this.ticketId = this._ticketId;
-      this.snackBar.open("Message sent", "Close", { duration: 3000 });
-    });
+  onSendMessage(text: string) {
+    const senderType = 'operator',
+      senderId = 'operator1';
+    this.api
+      .addMessageToTicket(this.ticketId, { text, senderType, senderId })
+      .subscribe(() => {
+        this.loadTicketData();
+        this.snackBar.open('Message sent', 'Close', { duration: 3000 });
+      });
   }
 }

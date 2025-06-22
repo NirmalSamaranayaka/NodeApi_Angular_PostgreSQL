@@ -18,8 +18,14 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSelectModule } from "@angular/material/select";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatTableModule } from "@angular/material/table";
 import { TicketNotFoundComponent } from './ticket-not-found/ticket-not-found.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TicketHeaderComponent } from './ticket-header/ticket-header.component';
+import { TicketMessageListComponent } from './ticket-message-list/ticket-message-list.component';
+import { TicketSendMessageComponent } from './ticket-send-message/ticket-send-message.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -28,6 +34,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     TicketsListComponent,
     TicketComponent,
     TicketNotFoundComponent,
+    TicketHeaderComponent,
+    TicketMessageListComponent,
+    TicketSendMessageComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,6 +52,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatIconModule,
     MatSnackBarModule,
     MatSelectModule,
+    MatDialogModule,
+    MatTableModule,
+    MatDividerModule
   ],
   providers: [
     importProvidersFrom(HttpClientModule),

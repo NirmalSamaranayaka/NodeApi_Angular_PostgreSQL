@@ -1,0 +1,7 @@
+<div class="messages">
+  <div *ngFor="let message of messages; trackBy: trackByItems" class="message">
+    <div class="message-sender">{{ message.senderType | titlecase }}</div>
+    <div class="message-text">{{ message.text }}</div>
+    <div class="message-date">{{ message.createdAt | date : "medium" }}</div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<div class="header">
+  <div class="summary">
+    <div class="subject">Subject: {{ ticket?.subject }}</div>
+    <div class="created-on">Created on: {{ ticket?.createdAt | date }}</div>
+  </div>
+  <button
+    mat-stroked-button
+    [disabled]="ticket?.status == 'resolved'"
+    (click)="resolve.emit(ticket?.id)"
+  >
+    Resolve ticket
+  </button>
+</div>

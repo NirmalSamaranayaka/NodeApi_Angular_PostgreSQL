@@ -1,0 +1,8 @@
+<form *ngIf="messageForm" class="form" [formGroup]="messageForm" (ngSubmit)="sendMessage()">
+    <mat-form-field>
+      <mat-label>Message</mat-label>
+      <input matInput formControlName="text">
+    </mat-form-field>
+    <button mat-raised-button type="submit" color="primary"
+      [disabled]="(messageForm.status !== 'VALID')">Send</button>
+  </form>

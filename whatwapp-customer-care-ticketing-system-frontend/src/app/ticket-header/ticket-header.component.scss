@@ -1,0 +1,16 @@
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+}
+
+.header .summary {
+  flex: 1;
+  padding-right: 8px;
+}
+
+.subject {
+  font-size: larger;
+  margin-bottom: 4px;
+}
