@@ -1,0 +1,21 @@
+<div id="container">
+  <div id="filter" *ngIf="filterStatus">
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>Filter</mat-label>
+      <mat-select [formControl]="filterStatus">
+        <mat-option value="all">All</mat-option>
+        <mat-option value="resolved">Resolved</mat-option>
+        <mat-option value="unresolved">Unresolved</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div id="tickets">
+    <mat-nav-list>
+      <mat-list-item *ngFor="let item of tickets | async" routerLinkActive="active-link"
+        [routerLink]="['tickets', item.id]">
+        <a matListItemTitle>{{item.subject}}</a>
+        <span matListItemLine>{{item.status}}</span>
+      </mat-list-item>
+    </mat-nav-list>
+  </div>
+</div>

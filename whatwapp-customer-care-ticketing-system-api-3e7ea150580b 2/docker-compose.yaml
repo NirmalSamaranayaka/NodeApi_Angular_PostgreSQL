@@ -1,0 +1,49 @@
+services:
+  db:
+    image: postgres:16-alpine
+    expose:
+      - "5432"
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: api
+      POSTGRES_USER: &db-user api
+      POSTGRES_PASSWORD: &db-pwd apiPassword
+    healthcheck:
+      test: pg_isready -U api -d api
+      interval: 1s
+      start_period: 5s
+  migrate:
+    build:
+      context: .
+    entrypoint: [ npm ]
+    command: [ run, migrate, --, up, -m, /migrations ]
+    environment:
+      - DATABASE_URL=postgres://api:apiPassword@db:5432/api
+    depends_on:
+      - db
+  seed:
+    build:
+      context: .
+    entrypoint: [ node ]
+    command: [ /app/seed/index.js ]
+    environment:
+      PGHOST: db
+      PGUSER: *db-user
+      PGPASSWORD: *db-pwd
+      PGDATABASE: &database
+    depends_on:
+      - db
+  api:
+    build:
+      context: .
+    environment:
+      PGHOST: db
+      PGUSER: *db-user
+      PGPASSWORD: *db-pwd
+      PGDATABASE: *database
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+      - migrate

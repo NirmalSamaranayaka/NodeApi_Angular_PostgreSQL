@@ -1,0 +1,34 @@
+<!-- how would you distinguish between customer and operator and how would you structure the component (logic and html) -->
+<div id="container">
+  <div class="header">
+    <div class="summary">
+      <div class="subject">Subject: {{ (ticket$ | async)?.subject }}</div>
+      <div class="created-on">Created on: {{ (ticket$ | async)?.createdAt | date }}</div>
+    </div>
+    <button mat-stroked-button [disabled]="(ticket$ | async)?.status == 'resolved'"
+      (click)="closeTicket(ticketId)">Resolve ticket</button>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="messages">
+    <div *ngFor="let message of (messages$ | async); trackBy: trackByItems" class="message">
+      <div class="message-sender">
+        {{ message.senderType | titlecase }}
+      </div>
+      <div class="message-text">
+        {{ message.text }}
+      </div>
+      <div class="message-date">
+        {{ message.createdAt | date:'medium' }}
+      </div>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <form *ngIf="messageForm" class="form" [formGroup]="messageForm" (ngSubmit)="sendMessage()">
+    <mat-form-field>
+      <mat-label>Message</mat-label>
+      <input matInput formControlName="text">
+    </mat-form-field>
+    <button mat-raised-button type="submit" color="primary"
+      [disabled]="((ticket$ | async)?.status == 'resolved') || (messageForm.status !== 'VALID')">Send</button>
+  </form>
+</div>

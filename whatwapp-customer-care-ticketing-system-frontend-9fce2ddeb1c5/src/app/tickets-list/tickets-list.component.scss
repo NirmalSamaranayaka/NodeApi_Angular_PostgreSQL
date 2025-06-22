@@ -1,0 +1,22 @@
+#container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#filter {
+  padding: 8px 8px 0;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+#tickets {
+  flex: 1;
+  overflow: auto;
+}
+
+.active-link {
+  background-color: rgb(230, 230, 230);
+}

@@ -1,0 +1,41 @@
+#container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+}
+
+.header .summary {
+  flex: 1;
+  padding-right: 8px;
+}
+
+.subject {
+  font-size: larger;
+  margin-bottom: 4px;
+}
+
+.messages {
+  padding: 8px;
+  flex: 1;
+  overflow: auto;
+}
+
+.message {
+  padding: 8px 16px;
+}
+
+form {
+  padding: 8px 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+mat-form-field {
+  flex: 1
+}

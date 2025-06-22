@@ -1,0 +1,13 @@
+{
+  "extends": "@tsconfig/node22",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "sourceMap": true,
+    "outDir": "dist",
+  },
+  "include": [
+    "src",
+    "test"
+  ]
+}
