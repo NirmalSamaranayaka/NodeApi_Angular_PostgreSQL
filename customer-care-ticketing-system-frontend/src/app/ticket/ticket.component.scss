@@ -3,3 +3,10 @@
   flex-direction: column;
   height: 100%;
 }
+.scrollable-content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 0 16px;
+  margin-top: 8px;
+  margin-bottom: 30px;
+}
