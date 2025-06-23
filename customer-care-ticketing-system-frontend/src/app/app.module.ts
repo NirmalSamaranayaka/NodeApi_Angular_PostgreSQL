@@ -20,12 +20,16 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSelectModule } from "@angular/material/select";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatTableModule } from "@angular/material/table";
+import { MatCheckboxModule } from "@angular/material/checkbox";
 import { TicketNotFoundComponent } from './ticket-not-found/ticket-not-found.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TicketHeaderComponent } from './ticket-header/ticket-header.component';
 import { TicketMessageListComponent } from './ticket-message-list/ticket-message-list.component';
 import { TicketSendMessageComponent } from './ticket-send-message/ticket-send-message.component';
 import { MatDividerModule } from '@angular/material/divider';
+import { BulkSendHistoryComponent } from './bulk-send-history/bulk-send-history.component';
+import { BulkSendModalComponent } from './bulk-send-modal/bulk-send-modal.component';
+import { BulkSendProgressComponent } from './bulk-send-progress/bulk-send-progress.component';
 
 @NgModule({
   declarations: [
@@ -37,12 +41,16 @@ import { MatDividerModule } from '@angular/material/divider';
     TicketHeaderComponent,
     TicketMessageListComponent,
     TicketSendMessageComponent,
+    BulkSendHistoryComponent,
+    BulkSendModalComponent,
+    BulkSendProgressComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    FormsModule,
     MatListModule,
     MatToolbarModule,
     MatSidenavModule,
@@ -52,6 +60,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatIconModule,
     MatSnackBarModule,
     MatSelectModule,
+    MatCheckboxModule,
     MatDialogModule,
     MatTableModule,
     MatDividerModule

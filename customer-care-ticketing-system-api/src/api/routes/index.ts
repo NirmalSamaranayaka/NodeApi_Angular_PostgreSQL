@@ -22,5 +22,6 @@ export async function routes(instance: FastifyInstance) {
     .register(routePostBulkSend)
     .register(routeGetBulkSendList)
     .register(routeGetBulkSendJobById)
+    // .register(routePostBulkSend)
     ;
 }
