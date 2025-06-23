@@ -1,0 +1,67 @@
+<div mat-dialog-title class="dialog-header">
+  <h2>Bulk Send Info</h2>
+  <button
+    mat-icon-button
+    (click)="close()"
+    aria-label="Close dialog"
+    class="close-icon-button"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content class="dialog-scroll">
+  <div class="progress-content">
+    <div *ngIf="error" class="error">{{ error }}</div>
+
+    <div *ngIf="job" class="job-details">
+      <div class="row">
+        <span class="label">Job Id:</span>
+        <span class="value">{{ job.id }}</span>
+      </div>
+
+      <div class="row">
+        <span class="label">Message:</span>
+        <div class="value multiline">{{ job.message }}</div>
+      </div>
+
+      <div class="row">
+        <span class="label">Status:</span>
+        <span class="value">
+          {{
+            job.status === "in progress"
+              ? "In progress"
+              : (job.status | titlecase)
+          }}
+          [Succeeded: {{ job.succeededCount }} | Failed: {{ job.failedCount }} |
+          Remaining:
+          {{ job.totalCount - job.succeededCount - job.failedCount }}]
+        </span>
+      </div>
+
+      <div class="row">
+        <span class="label">Updated At:</span>
+        <span class="value">
+          {{ job.updatedAt ? (job.updatedAt | date : "d/M/yyyy HH:mm") : "—" }}
+        </span>
+      </div>
+
+      <div *ngIf="job.ticketIds?.length" class="ticket-section">
+        <span class="label">Tickets:</span>
+        <div class="tickets-grid">
+          <div
+            *ngFor="let ticketId of job.ticketIds"
+            [ngClass]="{
+              'status-success': job.results[ticketId] === 'succeeded',
+              'status-fail': job.results[ticketId] === 'failed',
+              'status-pending': !job.results[ticketId]
+            }"
+            class="ticket-item"
+          >
+            {{ ticketId }}&nbsp;&nbsp;{{ job.results[ticketId] || "pending" }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
