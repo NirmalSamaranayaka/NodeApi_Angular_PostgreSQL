@@ -1,0 +1,59 @@
+<div id="tickets-wrapper">
+  <div class="toolbar">
+    <mat-form-field appearance="fill" class="filter-field">
+      <mat-label>Filter</mat-label>
+      <mat-select [formControl]="filterStatus">
+        <mat-option value="all">All</mat-option>
+        <mat-option value="resolved">Resolved</mat-option>
+        <mat-option value="unresolved">Unresolved</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="openBulkSendModal()"
+      [disabled]="selectedTicketIds.length === 0"
+      class="bulk-button"
+    >
+      Bulk send
+    </button>
+  </div>
+
+  <mat-nav-list class="ticket-list" *ngIf="tickets | async as ticketList">
+    <mat-checkbox
+      [(ngModel)]="selectAllChecked"
+      (change)="onSelectAll(ticketList, $event.checked)"
+      class="select-all"
+    >
+      Select All Unresolved
+    </mat-checkbox>
+
+    <mat-list-item
+      *ngFor="let item of ticketList"
+      routerLinkActive="active-link"
+      [routerLink]="['tickets', item.id]"
+    >
+      <ng-container *ngIf="item.status === 'unresolved'; else resolvedTemplate">
+        <div class="unresolved-container">
+          <mat-checkbox
+            class="unresolved-checkbox"
+            [checked]="selectedTicketIds.includes(item.id)"
+            (click)="$event.stopPropagation()"
+            (change)="onSelectTicket(item.id, $event.checked)"
+          ></mat-checkbox>
+          <div class="unresolved-text">
+            <div class="ticket-subject">{{ item.subject }}</div>
+            <div class="ticket-status">{{ item.status }}</div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #resolvedTemplate>
+        <div class="resolved-placeholder">
+          <div class="ticket-subject">{{ item.subject }}</div>
+          <div class="ticket-status">{{ item.status }}</div>
+        </div>
+      </ng-template>
+    </mat-list-item>
+  </mat-nav-list>
+</div>

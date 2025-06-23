@@ -1,0 +1,38 @@
+#main-container {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+}
+
+#bottom-container {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  margin-top: var(--mat-toolbar-standard-height);
+}
+
+#tickets-list {
+  width: 250px;
+}
+
+#ticket {
+  flex: 1;
+}
+
+mat-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 42;
+}
+.spacer {
+  flex: 1 1 auto;
+}
+
+.bulk-history-link {
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+  color: #fff;
+  margin-left: 1rem;
+}
