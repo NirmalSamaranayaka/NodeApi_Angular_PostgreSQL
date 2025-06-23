@@ -1,0 +1,29 @@
+<div class="modal-content">
+  <h2>Bulk Send</h2>
+
+  <label for="bulk-message" class="message-label">Message:</label>
+
+  <div class="textarea-wrapper">
+    <textarea
+      id="bulk-message"
+      [(ngModel)]="message"
+      placeholder="Enter message..."
+      rows="5"
+    ></textarea>
+  </div>
+
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div class="actions">
+    <button
+      class="send-button"
+      mat-raised-button
+      color="primary"
+      (click)="send()"
+      [disabled]="sending"
+    >
+      Send
+    </button>
+    <button mat-button (click)="close()" [disabled]="sending">Cancel</button>
+  </div>
+</div>
