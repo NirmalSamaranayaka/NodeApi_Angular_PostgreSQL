@@ -1,0 +1,31 @@
+<div class="history-container">
+  <h2>Bulk Send History</h2>
+  <table *ngIf="!loading">
+    <thead>
+      <tr>
+        <th>Job Id</th>
+        <th>Status</th>
+        <th>Updated At</th>
+        <th>Message</th>
+        <th>More Info</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let job of jobs">
+        <td>{{ job.id }}</td>
+        <td>{{ job.status | titlecase }}</td>
+        <td>{{ job.updatedAt | date : "dd/M/yyyy HH:mm:ss" : "UTC" }}</td>
+        <td>
+          <span class="message-preview"
+            >{{ job.message | slice : 0 : 30
+            }}{{ job.message.length > 30 ? "..." : "" }}</span
+          >
+        </td>
+        <td>
+          <a href="#" (click)="viewJob(job); $event.preventDefault()">view</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="loading">Loading...</div>
+</div>

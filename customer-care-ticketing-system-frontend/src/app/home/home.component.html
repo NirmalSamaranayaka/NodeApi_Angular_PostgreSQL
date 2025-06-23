@@ -1,6 +1,26 @@
 <div id="main-container">
   <mat-toolbar class="mat-elevation-z2" color="primary">
     <span>Customer Care System</span>
+    <span class="spacer"></span>
+    <!-- Show Back button if on /home/bulk-send-history -->
+    <button
+      *ngIf="router.url.includes('/home/bulk-send-history')"
+      mat-stroked-button
+      class="back-button"
+      (click)="goBack()"
+    >
+      ← Back
+    </button>
+
+    <!-- Show Bulk Send History link otherwise -->
+    <a
+      *ngIf="!router.url.includes('/home/bulk-send-history')"
+      mat-button
+      routerLink="/home/bulk-send-history"
+      class="bulk-history-link"
+    >
+      Bulk Send History
+    </a>
   </mat-toolbar>
   <div id="bottom-container">
     <div id="tickets-list">
