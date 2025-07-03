@@ -1,11 +1,11 @@
 <div id="container">
-  <app-ticket-header [ticket]="ticket" (resolve)="onResolve($event)">
-  </app-ticket-header>
-  <mat-divider></mat-divider>
-  <div class="scrollable-content">
-    <app-ticket-message-list [messages]="messages"></app-ticket-message-list>
-  </div>
-  <mat-divider></mat-divider>
-  <app-ticket-send-message [showForm]="showForm" (send)="onSendMessage($event)">
-  </app-ticket-send-message>
+  <ng-container *ngIf="ticket$ | async as ticket">
+    <app-ticket-header [ticket]="ticket" (resolve)="onResolve($event)"></app-ticket-header>
+    <mat-divider></mat-divider>
+    <div class="scrollable-content">
+      <app-ticket-message-list [messages]="(messages$ | async) || []"></app-ticket-message-list>
+    </div>
+    <mat-divider></mat-divider>
+    <app-ticket-send-message [showForm]="showForm" (send)="onSendMessage($event)"></app-ticket-send-message>
+  </ng-container>
 </div>
